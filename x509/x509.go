@@ -103,15 +103,8 @@ func ParsePKIXPublicKey(derBytes []byte) (pub interface{}, err error) {
 		return nil, errors.New("x509: unknown public key algorithm")
 	}
 	var nfe NonFatalErrors
-	pub, err = parsePublicKey(algo, &pki, &nfe)
-	if err != nil {
-		return pub, err
-	}
-	// Treat non-fatal errors as fatal for this entrypoint.
-	if len(nfe.Errors) > 0 {
-		return nil, nfe.Errors[0]
-	}
-	return pub, nil
+	
+	return parsePublicKey(algo, &pki, &nfe)
 }
 
 func marshalPublicKey(pub interface{}) (publicKeyBytes []byte, publicKeyAlgorithm pkix.AlgorithmIdentifier, err error) {
